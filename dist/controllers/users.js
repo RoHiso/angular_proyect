@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.getAllUsers = void 0;
+exports.deleteUser = exports.getUser = exports.getAllUsers = void 0;
 const user_1 = __importDefault(require("../models/user"));
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsers = yield user_1.default.findAll();
@@ -41,3 +41,24 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUser = getUser;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    try {
+        const user = yield user_1.default.findByPk(id);
+        if (user) {
+            yield user.destroy();
+            res.json({
+                msg: "usuario eliminado satisfactoriamente"
+            });
+        }
+        else {
+            res.json({
+                msg: "no existe el usuario con ese id: " + id
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteUser = deleteUser;

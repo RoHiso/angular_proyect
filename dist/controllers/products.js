@@ -68,7 +68,6 @@ const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             });
         }
         else {
-            console.log('No se encontro el producto con ID: ' + id);
             res.json({
                 msg: "No existe el producto con ese ID"
             });

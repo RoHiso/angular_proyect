@@ -55,12 +55,12 @@ export const deleteProduct = async (req:Request, res:Response)=>{
     try {
         const product = await Producto.findByPk(id);
         if (product) {
-            product.destroy()
+            product.destroy();
             res.json({
                 msg:"Se elimino el producto con el ID: " + id + "  exitosamente"
             })
         } else {
-            console.log('No se encontro el producto con ID: ' + id);
+           
             res.json({
                 msg:"No existe el producto con ese ID"
             })

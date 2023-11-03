@@ -5,4 +5,5 @@ const users_1 = require("../controllers/users");
 const routes = (0, express_1.Router)();
 routes.get('/', users_1.getAllUsers);
 routes.get('/:id', users_1.getUser);
+routes.delete('/:id', users_1.deleteUser);
 exports.default = routes;

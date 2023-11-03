@@ -27,3 +27,26 @@ export const getUser = async (req:Request, res:Response) =>{
        console.log(error) 
     }
 }
+
+export const deleteUser = async (req:Request, res:Response) => {
+    const {id}=req.params;
+
+    try {
+            const user = await Usuario.findByPk(id);
+            if (user) {
+                await user.destroy();
+                
+                res.json({
+                    msg:"usuario eliminado satisfactoriamente"
+            })
+            } else {
+                res.json({
+                    msg:"no existe el usuario con ese id: " + id
+                })
+                
+            }
+    } catch (error) {
+        console.log(error)
+    }
+
+}
