@@ -1,4 +1,4 @@
-import express, {NextFunction, Request,Response} from 'express';
+import {NextFunction, Request,Response} from 'express';
 
 import Producto from '../models/product';
 
@@ -31,12 +31,16 @@ export const editProduct = async (req:Request, res:Response)=>{
     try {
         const product = await Producto.findByPk(id);
         if (product) {
-            product.update(body);
-            console.log(`El producto con id ${id}, se actualizo exitosamente`);
-        } else {
-            console.log('No se encontro el producto con ID: ' + id);
+            await product.update(body);
             res.json({
-                msg:"No existe el producto con ese ID"
+                msg:"El producto fue actualizado satisfactoriamente"
+            });
+
+        } else {
+            
+            res.json({
+                msg:"No existe el producto con ese ID",
+                id
             })
         }
 

@@ -40,13 +40,15 @@ const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const product = yield product_1.default.findByPk(id);
         if (product) {
-            product.update(body);
-            console.log(`El producto con id ${id}, se actualizo exitosamente`);
+            yield product.update(body);
+            res.json({
+                msg: "El producto fue actualizado satisfactoriamente"
+            });
         }
         else {
-            console.log('No se encontro el producto con ID: ' + id);
             res.json({
-                msg: "No existe el producto con ese ID"
+                msg: "No existe el producto con ese ID",
+                id
             });
         }
     }
