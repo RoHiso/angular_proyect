@@ -3,31 +3,26 @@ import { DataTypes } from 'sequelize';
 
 const Usuario = dbconection.define('Usuario', {
     // Model attributes are defined here
-    id: {
+    id_user: {
       type:DataTypes.INTEGER,
       autoIncrement: true,
       allowNull:false,
       primaryKey:true
     },
-    nombre:{
-        type:DataTypes.STRING
+    username:{
+        type:DataTypes.STRING,
+        unique:true,
+        allowNull:false
     },
-    apellido:{
-        type:DataTypes.STRING
+    password:{
+        type:DataTypes.STRING,
+        unique:true,
+        allowNull:false
     },
     email:{
         type:DataTypes.STRING
-    },
-    edad:{
-        type:DataTypes.INTEGER
     }
-  }, {
-    // Other model options go here
-    // I don't want createdAt
-  createdAt: false,
-
-  // I want updatedAt to actually be called updateTimestamp
-  updatedAt: false
-  });
+  }
+  );
 
   export default Usuario;

@@ -7,29 +7,24 @@ const config_1 = __importDefault(require("../dbconfig/config"));
 const sequelize_1 = require("sequelize");
 const Usuario = config_1.default.define('Usuario', {
     // Model attributes are defined here
-    id: {
+    id_user: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    nombre: {
-        type: sequelize_1.DataTypes.STRING
+    username: {
+        type: sequelize_1.DataTypes.STRING,
+        unique: true,
+        allowNull: false
     },
-    apellido: {
-        type: sequelize_1.DataTypes.STRING
+    password: {
+        type: sequelize_1.DataTypes.STRING,
+        unique: true,
+        allowNull: false
     },
     email: {
         type: sequelize_1.DataTypes.STRING
-    },
-    edad: {
-        type: sequelize_1.DataTypes.INTEGER
     }
-}, {
-    // Other model options go here
-    // I don't want createdAt
-    createdAt: false,
-    // I want updatedAt to actually be called updateTimestamp
-    updatedAt: false
 });
 exports.default = Usuario;

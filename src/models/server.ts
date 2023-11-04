@@ -1,8 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import routesProducts from '../routes/products';
 import routesUsuarios from '../routes/user';
-//import dbconfig from '../dbconfig/config';
+
 import sequelize from '../dbconfig/config';
+import Usuario from './user';
 
 class Server{
 
@@ -14,8 +15,8 @@ class Server{
     this.port="3001";
     this.listening();
     this.middlewares();
+    this.syncTables();
     this.routing();
-    this.testconection();
    }
 
    listening(){
@@ -38,10 +39,10 @@ class Server{
     this.app.use(express.json())
    }
 
-   testconection(){
+   async syncTables(){
     try {
-        sequelize.authenticate();
-        console.log('Conexion establecida satisfactoriamente')
+       await Usuario.sync()
+        console.log('Tabla usuarios sincronizada exitosamente')
     } catch (error) {
         console.error(error);
         console.log('error de conexion')
