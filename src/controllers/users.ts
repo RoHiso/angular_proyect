@@ -1,5 +1,7 @@
  import express, {NextFunction, Request,Response} from 'express';
+ import bcrypt from 'bcrypt';
 import Usuario from "../models/user";
+import jwt from 'jsonwebtoken';
 
 export const getAllUsers =async (req:Request, res:Response)=>{
     const listUsers = await Usuario.findAll();
@@ -49,4 +51,86 @@ export const deleteUser = async (req:Request, res:Response) => {
         console.log(error)
     }
 
+}
+
+export const editUser = async (req:Request, res:Response) => {
+    const {id}=req.params;
+    const {body}= req;
+    try {
+            const user = await Usuario.findByPk(id);
+            if (user) {
+                await user.update(body);
+                
+                res.json({
+                    msg:"Usuario actualizado con exito"
+            })
+            } else {
+                res.json({
+                    msg:"no existe el usuario con ese id: " + id
+                })
+                
+            }
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+export const newUser = async (req:Request, res:Response)=>{
+    const {username, password, email} = req.body;
+    // console.log(username);
+    // console.log(password);
+    try {
+        // hashed (encriptar) la contraseña  
+        const hashedPassword = await bcrypt.hash(password,10);
+        //console.log(hashedPassword);
+       const user = await Usuario.findOne({where:{username:username}});
+       if (user) {
+            return res.status(400).json({
+               msg:`El usuario ${username} ya existe!!`
+           })          
+      }else{
+        Usuario.create({
+            username:username,
+            password:hashedPassword,
+            email:email    
+        } );
+        res.json({
+            usuario:`se agrego al usuario ${username}`
+        })
+      }
+              
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const loginUser = async (req:Request, res:Response)=>{
+    const {username, password} = req.body;
+
+    //validacion si existe usuario en la base de datos
+    try {
+        const user:any = await Usuario.findOne({where:{username:username}})
+        if(!user){
+            return res.status(400).json({
+                msg:`No existe el usuario: ${username} en la base de datos`
+            });
+        }
+        //Validamos que la contraseña (password) sea correcta, ejemplo tenga mas de 8 caracteres
+        const passwordValid = await bcrypt.compare(password, user.password);
+        console.log(passwordValid);
+        if(!passwordValid){
+            return res.status(400).json({
+                msg:`Contraseña Incorrecta`
+            });
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+    //Generamos el token
+    const token = jwt.sign(username, "pepito1234");
+    res.json({
+        token:token
+    })
 }

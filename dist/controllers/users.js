@@ -12,8 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUser = exports.getAllUsers = void 0;
+exports.loginUser = exports.newUser = exports.editUser = exports.deleteUser = exports.getUser = exports.getAllUsers = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_1 = __importDefault(require("../models/user"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const listUsers = yield user_1.default.findAll();
     res.json({
@@ -62,3 +64,84 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        const user = yield user_1.default.findByPk(id);
+        if (user) {
+            yield user.update(body);
+            res.json({
+                msg: "Usuario actualizado con exito"
+            });
+        }
+        else {
+            res.json({
+                msg: "no existe el usuario con ese id: " + id
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.editUser = editUser;
+const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password, email } = req.body;
+    // console.log(username);
+    // console.log(password);
+    try {
+        // hashed (encriptar) la contraseña  
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        //console.log(hashedPassword);
+        const user = yield user_1.default.findOne({ where: { username: username } });
+        if (user) {
+            return res.status(400).json({
+                msg: `El usuario ${username} ya existe!!`
+            });
+        }
+        else {
+            user_1.default.create({
+                username: username,
+                password: hashedPassword,
+                email: email
+            });
+            res.json({
+                usuario: `se agrego al usuario ${username}`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.newUser = newUser;
+const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    //validacion si existe usuario en la base de datos
+    try {
+        const user = yield user_1.default.findOne({ where: { username: username } });
+        if (!user) {
+            return res.status(400).json({
+                msg: `No existe el usuario: ${username} en la base de datos`
+            });
+        }
+        //Validamos que la contraseña (password) sea correcta, ejemplo tenga mas de 8 caracteres
+        const passwordValid = yield bcrypt_1.default.compare(password, user.password);
+        console.log(passwordValid);
+        if (!passwordValid) {
+            return res.status(400).json({
+                msg: `Contraseña Incorrecta`
+            });
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+    //Generamos el token
+    const token = jsonwebtoken_1.default.sign(username, "pepito1234");
+    res.json({
+        token: token
+    });
+});
+exports.loginUser = loginUser;

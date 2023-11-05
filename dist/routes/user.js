@@ -5,5 +5,8 @@ const users_1 = require("../controllers/users");
 const routes = (0, express_1.Router)();
 routes.get('/', users_1.getAllUsers);
 routes.get('/:id', users_1.getUser);
+routes.put('/:id', users_1.editUser);
 routes.delete('/:id', users_1.deleteUser);
+routes.post('/', users_1.newUser);
+routes.post('/login', users_1.loginUser);
 exports.default = routes;

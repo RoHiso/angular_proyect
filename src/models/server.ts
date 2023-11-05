@@ -13,7 +13,7 @@ class Server{
    constructor(){
     this.app=express();
     this.port="3001";
-    this.listening();
+    this.listening(); 
     this.middlewares();
     this.syncTables();
     this.routing();
