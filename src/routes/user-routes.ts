@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getUser,getAllUsers, deleteUser, newUser, editUser, loginUser } from "../controllers/users";
 
+
 const routes = Router();
 
 routes.get('/',getAllUsers);

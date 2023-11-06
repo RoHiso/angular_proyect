@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const products_1 = __importDefault(require("../routes/products"));
-const user_1 = __importDefault(require("../routes/user"));
-const user_2 = __importDefault(require("./user"));
+const product_routes_1 = __importDefault(require("../routes/product-routes"));
+const user_routes_1 = __importDefault(require("../routes/user-routes"));
+const user_1 = __importDefault(require("./user"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
@@ -36,8 +36,8 @@ class Server {
                 msg: 'Api corriendo en el puerto 4000'
             });
         }),
-            this.app.use('/api/productos', products_1.default);
-        this.app.use('/api/usuarios', user_1.default);
+            this.app.use('/api/productos', product_routes_1.default);
+        this.app.use('/api/usuarios', user_routes_1.default);
     }
     middlewares() {
         this.app.use(express_1.default.json());
@@ -45,7 +45,7 @@ class Server {
     syncTables() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield user_2.default.sync();
+                yield user_1.default.sync();
                 console.log('Tabla usuarios sincronizada exitosamente');
             }
             catch (error) {

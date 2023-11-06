@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
-import routesProducts from '../routes/products';
-import routesUsuarios from '../routes/user';
+import routesProducts from '../routes/product-routes';
+import routesUsuarios from '../routes/user-routes';
 
 import sequelize from '../dbconfig/config';
 import Usuario from './user';
