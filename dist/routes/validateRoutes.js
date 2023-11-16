@@ -9,9 +9,9 @@ const validateToken = (req, res, next) => {
     const headerToken = req.headers['authorization'];
     //console.log(headerToken);
     if (headerToken != undefined && headerToken.startsWith('Bearer')) {
-        const bearerToken = headerToken.slice(7);
         //console.log(bearerToken);
         try {
+            const bearerToken = headerToken.slice(7);
             jsonwebtoken_1.default.verify(bearerToken, "pepito1234");
             next();
         }
