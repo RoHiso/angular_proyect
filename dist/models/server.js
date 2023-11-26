@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const product_routes_1 = __importDefault(require("../routes/product-routes"));
 const user_routes_1 = __importDefault(require("../routes/user-routes"));
+const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("./user"));
 class Server {
     constructor() {
@@ -33,14 +34,17 @@ class Server {
     routing() {
         this.app.get('/', (req, res) => {
             res.json({
-                msg: 'Api corriendo en el puerto 4000'
+                msg: 'Api corriendo en el puerto 3001'
             });
         }),
             this.app.use('/api/productos', product_routes_1.default);
         this.app.use('/api/usuarios', user_routes_1.default);
     }
     middlewares() {
+        //parseamos el Body
         this.app.use(express_1.default.json());
+        //cors
+        this.app.use((0, cors_1.default)());
     }
     syncTables() {
         return __awaiter(this, void 0, void 0, function* () {

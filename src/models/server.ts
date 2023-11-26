@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import routesProducts from '../routes/product-routes';
 import routesUsuarios from '../routes/user-routes';
-
+import cors from 'cors';
 import sequelize from '../dbconfig/config';
 import Usuario from './user';
 
@@ -24,19 +24,24 @@ class Server{
         console.log(`Escuchando en el puerto ${this.port}`);
     })
    }
+   
+   middlewares(){
+    //parseamos el Body
+    this.app.use(express.json())
+    //cors
+    this.app.use(cors());
+   }
+
    routing(){
     this.app.get('/',(req:Request,res:Response)=>{
         res.json({
-            msg:'Api corriendo en el puerto 4000'
+            msg:'Api corriendo en el puerto 3001'
         });
     }),
     this.app.use('/api/productos', routesProducts);
 
     this.app.use('/api/usuarios', routesUsuarios);
 
-   }
-   middlewares(){
-    this.app.use(express.json())
    }
 
    async syncTables(){
