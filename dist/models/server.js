@@ -31,6 +31,12 @@ class Server {
             console.log(`Escuchando en el puerto ${this.port}`);
         });
     }
+    middlewares() {
+        //parseamos el Body
+        this.app.use(express_1.default.json());
+        //cors
+        this.app.use((0, cors_1.default)());
+    }
     routing() {
         this.app.get('/', (req, res) => {
             res.json({
@@ -39,12 +45,6 @@ class Server {
         }),
             this.app.use('/api/productos', product_routes_1.default);
         this.app.use('/api/usuarios', user_routes_1.default);
-    }
-    middlewares() {
-        //parseamos el Body
-        this.app.use(express_1.default.json());
-        //cors
-        this.app.use((0, cors_1.default)());
     }
     syncTables() {
         return __awaiter(this, void 0, void 0, function* () {
