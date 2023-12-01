@@ -82,7 +82,7 @@ export const newUser = async (req:Request, res:Response)=>{
     // console.log(password);
     try {
         // hashed (encriptar) la contraseña  
-        const hashedPassword = await bcrypt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(password,8);
         //console.log(hashedPassword);
        const user = await Usuario.findOne({where:{username:username}});
        if (user) {
@@ -96,7 +96,7 @@ export const newUser = async (req:Request, res:Response)=>{
             email:email    
         } );
         res.json({
-            usuario:`se agrego al usuario ${username}`
+            usuario:`se agrego al usuario ${username} exitosamente`
         })
       }
               

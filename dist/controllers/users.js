@@ -92,7 +92,7 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(password);
     try {
         // hashed (encriptar) la contraseña  
-        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        const hashedPassword = yield bcrypt_1.default.hash(password, 8);
         //console.log(hashedPassword);
         const user = yield user_1.default.findOne({ where: { username: username } });
         if (user) {
@@ -107,7 +107,7 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 email: email
             });
             res.json({
-                usuario: `se agrego al usuario ${username}`
+                usuario: `se agrego al usuario ${username} exitosamente`
             });
         }
     }
