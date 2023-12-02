@@ -141,7 +141,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //Generamos el token
     const token = jsonwebtoken_1.default.sign(username, "pepito1234");
     res.json({
-        token: token
+        token
     });
 });
 exports.loginUser = loginUser;

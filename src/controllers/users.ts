@@ -129,8 +129,8 @@ export const loginUser = async (req:Request, res:Response)=>{
         console.log(error);
     }
     //Generamos el token
-    const token = jwt.sign(username, "pepito1234");
+    const token:string = jwt.sign(username, "pepito1234");
     res.json({
-        token:token
+        token
     })
 }
