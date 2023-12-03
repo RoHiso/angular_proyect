@@ -7,14 +7,14 @@ const validateToken = (req:Request, res:Response, next:NextFunction) => {
     //console.log(headerToken);
     if (headerToken != undefined && headerToken.startsWith('Bearer')) {
         
-        //console.log(bearerToken);
+        //tiene Token
         try {
             
             const bearerToken = headerToken.slice(7);
             jwt.verify(bearerToken,  "pepito1234")
             next();        
         } catch (error) {
-            console.log(error);
+            
             res.status(401).json({
                 msg:'Token no autorizado'
             })

@@ -9,14 +9,13 @@ const validateToken = (req, res, next) => {
     const headerToken = req.headers['authorization'];
     //console.log(headerToken);
     if (headerToken != undefined && headerToken.startsWith('Bearer')) {
-        //console.log(bearerToken);
+        //tiene Token
         try {
             const bearerToken = headerToken.slice(7);
             jsonwebtoken_1.default.verify(bearerToken, "pepito1234");
             next();
         }
         catch (error) {
-            console.log(error);
             res.status(401).json({
                 msg: 'Token no autorizado'
             });
