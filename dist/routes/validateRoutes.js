@@ -7,10 +7,13 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const validateToken = (req, res, next) => {
     //Extraemos el token con la funcion
     const headerToken = req.headers['authorization'];
-    //console.log(headerToken);
+    console.log(typeof headerToken);
+    console.log(headerToken);
+    //Validamos el token
     if (headerToken != undefined && headerToken.startsWith('Bearer')) {
         //tiene Token
         try {
+            //extraemos el token con la funcion jwt.slice
             const bearerToken = headerToken.slice(7);
             jsonwebtoken_1.default.verify(bearerToken, "pepito1234");
             next();
@@ -26,7 +29,5 @@ const validateToken = (req, res, next) => {
             msg: 'Acceso denegado'
         });
     }
-    //Validamos el token
-    //extraemos el token con la funcion jwt.slice
 };
 exports.default = validateToken;

@@ -82,8 +82,9 @@ export const newUser = async (req:Request, res:Response)=>{
     // console.log(password);
     try {
         // hashed (encriptar) la contraseña  
-        const hashedPassword = await bcrypt.hash(password,8);
-        //console.log(hashedPassword);
+        const hashedPassword:string = await bcrypt.hash(password,10);
+        console.log(hashedPassword);
+        console.log(typeof hashedPassword);
        const user = await Usuario.findOne({where:{username:username}});
        if (user) {
             return res.status(400).json({
@@ -117,20 +118,18 @@ export const loginUser = async (req:Request, res:Response)=>{
             });
         }
         //Validamos que la contraseña (password) sea correcta, ejemplo tenga mas de 8 caracteres
-        const passwordValid = await bcrypt.compare(password, user.password);
-        console.log(passwordValid);
-        if(!passwordValid){
-            return res.status(400).json({
-                msg:`Contraseña Incorrecta`
-            });
-        }
+         const passwordValid = await bcrypt.compare(password, user.password);
+         console.log(passwordValid);
+         if(!passwordValid){
+             return res.status(400).json({
+                 msg:`Contraseña Incorrecta`
+             });
+         }
 
     } catch (error) {
         console.log(error);
     }
     //Generamos el token
     const token:string = jwt.sign(username, "pepito1234");
-    res.json({
-        token
-    })
+    res.json(token)
 }

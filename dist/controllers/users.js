@@ -92,8 +92,9 @@ const newUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // console.log(password);
     try {
         // hashed (encriptar) la contraseña  
-        const hashedPassword = yield bcrypt_1.default.hash(password, 8);
-        //console.log(hashedPassword);
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        console.log(hashedPassword);
+        console.log(typeof hashedPassword);
         const user = yield user_1.default.findOne({ where: { username: username } });
         if (user) {
             return res.status(400).json({
@@ -140,8 +141,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     //Generamos el token
     const token = jsonwebtoken_1.default.sign(username, "pepito1234");
-    res.json({
-        token
-    });
+    res.json(token);
 });
 exports.loginUser = loginUser;
