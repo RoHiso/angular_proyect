@@ -124,7 +124,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield user_1.default.findOne({ where: { username: username } });
         if (!user) {
             return res.status(400).json({
-                msg: `No existe el usuario: ${username} en la base de datos`
+                msg: `  existe el usuario: ${username} en la base de datos`
             });
         }
         //Validamos que la contraseña (password) sea correcta, ejemplo tenga mas de 8 caracteres
